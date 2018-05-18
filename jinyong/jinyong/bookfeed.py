@@ -3,9 +3,7 @@ class BookFeed:
         self.books = {}
 
     def feed(self, item):
-        if not item['book'] in self.books:
-            self.books[item['book']] = []
-        self.books[item['book']].append((int(item['sn']), item['chap'], item['lines']))
+        self.books.setdefault(item['book'], []).append((int(item['sn']), item['chap'], item['lines']))
 
     def getBook(self, name):
         if self.books[name]:
@@ -59,4 +57,4 @@ class BookFeed:
 
     def getAllBooks(self):
         for name in self.books.keys():
-            self.getBookHTML(name)
+            self.getBook(name)
