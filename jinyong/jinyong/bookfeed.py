@@ -40,7 +40,9 @@ class BookFeed:
 
             fnOut = '%s.html' % name
             with open(fnOut, 'w') as f:
+                f.write('<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n' % name)
                 f.write(markdown2.markdown_path(fn))
+                f.write('</body>\n</html>\n')
             return fnOut
 
     def getBookPDF(self, name):
