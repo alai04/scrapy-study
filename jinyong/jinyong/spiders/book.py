@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
+
 class BookSpider(scrapy.Spider):
     name = 'book'
     allowed_domains = ['jinyongwang.com']
@@ -17,15 +18,13 @@ class BookSpider(scrapy.Spider):
         for link in response.xpath("//ul[@class='mlist']/li/a/@href").extract():
             yield scrapy.Request(response.urljoin(link), callback=self.chap_parse)
 
-
     def chap_parse(self, response):
         # //div[@class='topleft']/span/a/text()     Book name
         # //h1[@id='title']/text()      Chapter name
         # //div[@id='vcon']/p/text()    Content
         yield {
-            'sn':    response.url.split('/')[-1].split('.')[0],
-            'book':  response.xpath("//div[@class='topleft']/span/a/text()").extract()[1],
-            'chap':  response.xpath("//h1[@id='title']/text()").extract_first(),
+            'sn': response.url.split('/')[-1].split('.')[0],
+            'book': response.xpath("//div[@class='topleft']/span/a/text()").extract()[1],
+            'chap': response.xpath("//h1[@id='title']/text()").extract_first(),
             'lines': response.xpath("//div[@id='vcon']/p/text()").extract(),
         }
-

@@ -34,18 +34,14 @@ class BookFeed:
             return fn
 
     def getBookHTML(self, name):
-        if self.books[name]:
-            book = self.books[name]
-            book.sort()
-            fn = '%s.html' % name
-            with open(fn, 'w') as f:
-                print('<html><head><title>%s</title></head><body>' % name, file=f)
-                for chap in book:
-                    print('<h1>%s</h1>' % chap[1], file=f)
-                    for line in chap[2]:
-                        print('<p>%s</p>' % line, file=f)
-                print('</body></html>', file=f)
-            return fn
+        fn = self.getBookMarkdown(name)
+        if fn:
+            import markdown2
+
+            fnOut = '%s.html' % name
+            with open(fnOut, 'w') as f:
+                f.write(markdown2.markdown_path(fn))
+            return fnOut
 
     def getBookPDF(self, name):
         fn = self.getBookHTML(name)
@@ -61,4 +57,4 @@ class BookFeed:
 
     def getAllBooks(self):
         for name in self.books.keys():
-            self.getBookPDF(name)
+            self.getBookHTML(name)

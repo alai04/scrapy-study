@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from .bookfeed import BookFeed
 
+
 class JinyongPipeline(object):
     def open_spider(self, spider):
         self.books = BookFeed()
